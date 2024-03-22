@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#define NUM_LEDS 300
-#define DATA_PIN 39
-#define SNAKE_LENGTH 10
+#define NUM_LEDS 900
+#define DATA_PIN 23
+#define SNAKE_LENGTH 50
 #define NUM_SNAKES 7
 
 CRGB leds[NUM_LEDS];
@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   for (int i = 0; i < NUM_SNAKES; i++) {
-    snakePos[i] = (snakePos[i] + 1) % NUM_LEDS;
+    snakePos[i] = (snakePos[i] + 3) % NUM_LEDS;
   }
   displaySnakes();
   delay(1);
