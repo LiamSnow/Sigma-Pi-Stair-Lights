@@ -1,3 +1,8 @@
+/*
+ESP32-DevKitC V4 (esp32-wroom-32d)
+3x300 LED WS2812B Strip
+*/
+
 #include <Arduino.h>
 #include <FastLED.h>
 
@@ -9,6 +14,9 @@
 
 CRGB leds[NUM_LEDS];
 int snakePos[NUM_SNAKES];
+
+CRGB snakeStartColor = CRGB(200, 255, 200);
+CRGB snakeEndColor = CRGB(0, 255, 0);
 
 void setup() {
   FastLED.addLeds<WS2812B, DATA_PIN, RBG>(leds, NUM_LEDS);
@@ -32,23 +40,20 @@ void displaySnakes() {
         //draw each snake
         for (int i = 0; i < SNAKE_LENGTH; i++) {
             int pos = (snakePos[j] + i) % NUM_LEDS;
-            
-            // Map the LED positions to the left and right strips
-            if (pos < LED_SPLIT) {
-                // Left strip (LEDs 500 → 0)
-                int leftPos = LED_SPLIT - 1 - pos;
-                leds[leftPos] = CRGB::Green;
-                // leds[leftPos] = CHSV(round(((float)i / SNAKE_LENGTH) * 255), 255, 255);
-                // leds[leftPos] = CRGB(100, round(((float)i / SNAKE_LENGTH) * 255), 50);
-            } else {
-                // Right strip (LEDs 500 → 900)
-                int rightPos = pos;
-                leds[rightPos] = CRGB::Green;
-                // leds[rightPos] = CHSV(round(((float)i / SNAKE_LENGTH) * 255), 255, 255);
-                // leds[rightPos] = CRGB(100, round(((float)i / SNAKE_LENGTH) * 255), 50);
-            }
+            if (pos < LED_SPLIT) pos = LED_SPLIT - 1 - pos;
+
+            // leds[pos] = CRGB::Green;
+            leds[pos] = interpolateSnakeColor(i);
         }
     }
     
     FastLED.show();
+}
+
+CRGB interpolateSnakeColor(int i) {
+    float t = (float)i / SNAKE_LENGTH;
+    int r = snakeStartColor.r + round((snakeEndColor.r - snakeStartColor.r) * t);
+    int g = snakeStartColor.g + round((snakeEndColor.g - snakeStartColor.g) * t);
+    int b = snakeStartColor.b + round((snakeEndColor.b - snakeStartColor.b) * t);
+    return CRGB(r, g, b);
 }
