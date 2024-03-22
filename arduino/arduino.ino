@@ -4,7 +4,8 @@
 #define NUM_LEDS 900
 #define DATA_PIN 23
 #define SNAKE_LENGTH 50
-#define NUM_SNAKES 7
+#define NUM_SNAKES 14
+#define LED_SPLIT 455
 
 CRGB leds[NUM_LEDS];
 int snakePos[NUM_SNAKES];
@@ -31,9 +32,21 @@ void displaySnakes() {
         //draw each snake
         for (int i = 0; i < SNAKE_LENGTH; i++) {
             int pos = (snakePos[j] + i) % NUM_LEDS;
-            // leds[pos] = CRGB::Green;
-            leds[pos] = CRGB(100, round(((float)i / SNAKE_LENGTH) * 255), 50);
-            // leds[pos] = CHSV(round(((float)i / SNAKE_LENGTH) * 255), 255, 255);
+            
+            // Map the LED positions to the left and right strips
+            if (pos < LED_SPLIT) {
+                // Left strip (LEDs 500 → 0)
+                int leftPos = LED_SPLIT - 1 - pos;
+                leds[leftPos] = CRGB::Green;
+                // leds[leftPos] = CHSV(round(((float)i / SNAKE_LENGTH) * 255), 255, 255);
+                // leds[leftPos] = CRGB(100, round(((float)i / SNAKE_LENGTH) * 255), 50);
+            } else {
+                // Right strip (LEDs 500 → 900)
+                int rightPos = pos;
+                leds[rightPos] = CRGB::Green;
+                // leds[rightPos] = CHSV(round(((float)i / SNAKE_LENGTH) * 255), 255, 255);
+                // leds[rightPos] = CRGB(100, round(((float)i / SNAKE_LENGTH) * 255), 50);
+            }
         }
     }
     
