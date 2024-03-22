@@ -3,15 +3,15 @@
 
 #define NUM_LEDS 900
 #define DATA_PIN 23
-#define SNAKE_LENGTH 50
+#define SNAKE_LENGTH 20
 #define NUM_SNAKES 14
-#define LED_SPLIT 455
+#define LED_SPLIT 458
 
 CRGB leds[NUM_LEDS];
 int snakePos[NUM_SNAKES];
 
 void setup() {
-  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, DATA_PIN, RBG>(leds, NUM_LEDS);
   for (int i = 0; i < NUM_SNAKES; i++) {
     snakePos[i] = (NUM_LEDS / NUM_SNAKES) * i;
   }
