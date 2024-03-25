@@ -1,6 +1,5 @@
 # Sigma-Pi-Stair-Lights
-Arduino code an ESP32 that controls two addressable LED strips (1200 LEDs total)
-to pulse down the stairs in a variety of patterns.
+Arduino code an ESP32-DevKitC V4 (ESP32-WROOM-32D) that controls 3x300 LED WS2812B strips connected in series to pulse down the stairs in a variety of patterns.
 
 ## Running
 1. Install Arduino IDE
